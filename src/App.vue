@@ -2,16 +2,17 @@
     <div id="app">
       <div class="board">
         <div class="row">
-              <draggable :animation="200" group="categories" handle=".handle">
+
+          <draggable :animation="400" v-model="columns" group="columns" handle=".handle">
                 <div
                 v-for="column in columns"
                 :key="column.title"
-                class="card bigcard d-inline-flex w-200"
+                class="card bigcard d-inline-flex"
                 >
-            
-                  <h5 class="card-header handle">{{column.title}}</h5>
+              
+               <h5 class="card-header handle">{{column.title}}</h5>
 
-                  <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
+                  <draggable :list="column.tasks" :animation="300" group="tasks">
                     <div
                       v-for="(task) in column.tasks"
                       :key="task.id"
@@ -19,8 +20,8 @@
                       class="card smallcard"
                       v-bind:class="{ faved: task.isFaved }"
                       >
-                      <p v-if="!task.isEdited" class="taskTitle">{{task.title}}</p>
-                      <input v-else type="text" v-model="task.title" class="taskTitleInput"/>
+                      <input v-if="task.isEdited" type="text" v-model="task.title" class="taskTitleInput"/>
+                      <p v-else class="taskTitle">{{task.title}}</p>
 
                       <div class="buttons-container">
                           <p class="timestamp">{{task.timestamp}}</p>
@@ -42,7 +43,8 @@
                   <button type="button" @click="add(column)" class="btn btn-light btn-sm w-50"><b-icon-check2 variant="success"></b-icon-check2></button>
                   <button type="button" @click="editing(column)" class="btn btn-light btn-sm w-50" ><b-icon-x-circle-fill variant="danger"></b-icon-x-circle-fill></button>
                   </div>
-                  <button v-else type="button" @click="editing(column)" class="btn btn-light"><b-icon-plus></b-icon-plus></button>
+                  <button v-else type="button" @click="editing(column)" class="btn btn-light btn-display"><b-icon-plus></b-icon-plus></button>
+                
                 </div>
               </draggable>
         </div>
@@ -73,7 +75,8 @@ export default class App extends Vue {
     id: 0,
     title: "",
     timestamp: "",
-    isFaved: false
+    isFaved: false,
+    isEdited: false
   }
 
   public add(column): void {
@@ -87,12 +90,20 @@ export default class App extends Vue {
       id: 0,
       title: "",
       timestamp: "",
-      isFaved: false
+      isFaved: false,
+      isEdited: false
     }
   }
 
   public editing(column): void {
     column.editing = !column.editing;
+    this.newTask = {
+      id: 0,
+      title: "",
+      timestamp: "",
+      isFaved: false,
+      isEdited: false
+    }
   }
 
   public edit(task): void {
@@ -106,7 +117,7 @@ export default class App extends Vue {
 
     private columns: Array<object> = [
         {
-          title: "jeden",
+          title: "Realizowane",
           editing: false,
           tasks: [
             {
@@ -133,7 +144,7 @@ export default class App extends Vue {
           ]
         },
         {
-          title: "dwa",
+          title: "Wstrzymane",
           editing: false,
           tasks: [
             {
@@ -153,7 +164,7 @@ export default class App extends Vue {
           ]
         },
         {
-          title: "Trzy",
+          title: "Do realizacji",
           editing: false,
           tasks: [
             {
@@ -173,7 +184,7 @@ export default class App extends Vue {
           ]
         },
         {
-          title: "cztery",
+          title: "Rozwiązane",
           editing: false,
           tasks: [
             {
@@ -193,19 +204,19 @@ export default class App extends Vue {
           ]
         },
         {
-          title: "Pięć",
+          title: "Zakończone",
           editing: false,
           tasks: [
             {
               id: 1,
-              title: "zjeść obiad",
+              title: "zrobić obiad",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
               isEdited: false
             },
             {
               id: 2,
-              title: "obejrzeć serialiks",
+              title: "zjeść cukinie",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
               isEdited: false
@@ -225,6 +236,14 @@ export default class App extends Vue {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+/* The heart of the matter */
+.board > .row {
+  overflow-x: auto;
+  white-space: nowrap;
+  display: block;
+}
 .category {
   margin-top: 20px;
   padding: 10px;
@@ -233,11 +252,9 @@ export default class App extends Vue {
   border-left: 3px solid red !important;
   padding: 10px 10px 10px 8px !important;
 }
-.w-200{
-    width: 250px !important;
-}
 .bigcard {
   margin: 10px;
+  width: 250px !important;
 }
 .smallcard {
   padding: 10px;
@@ -251,6 +268,9 @@ draggable {
   width: calc(100% - 20px);
   position: relative;
   margin: 10px;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 2px;
+  display: block;
 }
 .taskTitle {
   margin: 0px;
@@ -262,9 +282,10 @@ draggable {
 .taskTitleInput {
   margin: 0px;
   padding: 0px;
-  border: 1px solid #111;
   max-width: 100%;
   background-color: #fff;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 2px;
 }
 .buttons-container {
   padding: 0px;
@@ -280,8 +301,16 @@ draggable {
 .smallButton {
   cursor: pointer;
   display: inline-block;
-  width: calc(10% - 10px);
+  width: calc(10% - 11px);
   padding: 0;
-  margin: 0px 5px;
+}
+.smallButton:nth-child(even) {
+  margin-right: 14px;
+}
+.smallButton:nth-child(odd) {
+  margin-right: 0px;
+}
+.btn-display {
+  width: 100%;
 }
 </style>
