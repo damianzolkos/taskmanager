@@ -121,8 +121,7 @@ export default class App extends Vue {
   text-decoration: underline
 }
 .faved {
-  color: red;
-  border-right: 2px solid red;
+  border-left: 3px solid red;
 }
 .bigcard {
   width: 300px;
