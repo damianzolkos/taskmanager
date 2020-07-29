@@ -1,6 +1,6 @@
 <template>  
     <div>
-        <h5 class="card-header handle">{{column.title}}</h5>
+        <h6 class="card-header font-weight-bold handle">{{column.title}}</h6>
         <draggable :list="column.tasks" :animation="300" group="tasks" :move="checkMove">
             <Task
                 v-for="(task, i) in filteredTasks()"
@@ -13,22 +13,22 @@
                 >
             </Task>
         </draggable>
-        <div v-if="column.editing">
-            <input type="text" v-model="newTask.title" placeholder="" class="newinput"/>
-            <button type="button" @click="add(column)" class="btn btn-light btn-sm w-50"><b-icon-check2 variant="success"></b-icon-check2></button>
-            <button type="button" @click="editing(column)" class="btn btn-light btn-sm w-50" ><b-icon-x-circle-fill variant="danger"></b-icon-x-circle-fill></button>
+          <div class="card-footer text-muted p-0">
+            <div v-if="column.editing">
+                  <input type="text" v-model="newTask.title" placeholder="" class="newinput"/>
+                  <button type="button" @click="add(column)" class="btn btn-sm w-50"><b-icon-check2 variant="success"></b-icon-check2></button>
+                  <button type="button" @click="editing(column)" class="btn btn-sm w-50" ><b-icon-x-circle-fill variant="danger"></b-icon-x-circle-fill></button>
+            </div>
+            <button v-else type="button" @click="editing(column)" class="btn btn-display"><b-icon-plus></b-icon-plus></button>
+          </div>
         </div>
-        <button v-else type="button" @click="editing(column)" class="btn btn-light btn-display"><b-icon-plus></b-icon-plus></button>
-    </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import draggable from "vuedraggable";
-import {BIconPlus} from 'bootstrap-vue'
 
 import Task from './Task.vue';
-Vue.component('BIconPlus', BIconPlus)
 
 @Component({
   components: {
@@ -36,7 +36,6 @@ Vue.component('BIconPlus', BIconPlus)
     Task
   }
 })
-
 export default class TasksList extends Vue {
   @Prop() private column;
   @Prop() private selected!: number;
@@ -113,5 +112,23 @@ export default class TasksList extends Vue {
   border: 1px solid rgb(194, 194, 194);
   border-radius: 2px;
   display: block;
+}
+.btn-display {
+  width: 100%;
+}
+.card {
+  background-color: rgb(235, 235, 235);
+}
+.smallcard {
+  background-color: #fff;
+  -webkit-box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.62);
+  -moz-box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.62);
+  box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.62);
+}
+.card-header {
+  background-color: #fff;
+}
+.card-footer {
+  background-color: #fff;
 }
 </style>

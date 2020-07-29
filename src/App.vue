@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <select class="form-control select-user" v-model="selectedUser">
+        <select class="form-control-sm select-user" v-model="selectedUser">
           <option v-for="user in users" v-bind:value="user.id" :key="user.id">
               <span v-if="user.id!=0">{{user.first_name}} {{user.last_name}} <span v-if="user.job_title!=null">- {{user.job_title}}</span> </span>
               <span v-else>{{user.first_name}}</span>
@@ -37,10 +37,10 @@ Vue.use(VueAxios, axios)
     TasksList
   }
 })
-
 export default class App extends Vue {
 
     public users: Array<object> = []
+    public selectedUser = 0;
 
     mounted() {
       axios
@@ -56,8 +56,6 @@ export default class App extends Vue {
           });
         })
     }
-
-    public selectedUser = 0;
 
     public columns: Array<object> = [
         {
@@ -166,37 +164,30 @@ export default class App extends Vue {
 
 <style>
 html, body {
-  background-color: rgb(29, 97, 141);
-  min-height: 100%;
+  background-color: rgb(29, 97, 141) !important;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: block;
 }
 #app {
   padding: 40px 30px 0px 30px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(29, 97, 141);
-}
-#app > .row {
-  overflow-x: auto;
-  white-space: nowrap;
-  display: block;
-  min-height: 100% !important;
-  padding: 5px;
 }
 .category {
   margin-top: 20px;
   padding: 10px;
 }
-
 .bigcard {
   margin: 10px;
-  width: 250px !important;
-}
-
-.btn-display {
-  width: 100%;
+  width: 230px !important;
 }
 .select-user {
   max-width: 300px;
+  margin-left: -5px;
+  margin-bottom: 20px;
 }
 </style>
