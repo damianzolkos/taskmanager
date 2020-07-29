@@ -9,6 +9,7 @@
                 class="card smallcard"
                 v-bind:class="{ faved: task.isFaved }"
                 :msg = "task"
+                :users = "users"
                 >
             </Task>
         </draggable>
@@ -43,41 +44,45 @@ Vue.component('BIconPencilSquare', BIconPencilSquare)
 
 export default class TasksList extends Vue {
   @Prop() private column!: Array<object>;
+  @Prop() private users!: Array<object>;
   
     public newTask: Record<string, any> = {
-    id: 0,
-    title: "",
-    timestamp: "",
-    isFaved: false,
-    isEdited: false
-  }
-
-  public add(column): void {
-    const newId = column.tasks.length+1;
-    const d = new Date();
-    this.newTask.id = newId;
-    this.newTask.timestamp = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-    column.tasks.push(this.newTask);    
-    column.editing = !column.editing;
-    this.newTask = {
-      id: 0,
-      title: "",
-      timestamp: "",
-      isFaved: false,
-      isEdited: false
+        id: 0,
+        title: "",
+        timestamp: "",
+        isFaved: false,
+        isEdited: false,
+        owner: 0
     }
-  }
+
+    public add(column): void {
+        const newId = column.tasks.length+1;
+        const d = new Date();
+        this.newTask.id = newId;
+        this.newTask.timestamp = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        this.newTask.owner = 0;
+        column.tasks.push(this.newTask);    
+        column.editing = !column.editing;
+        this.newTask = {
+            id: 0,
+            title: "",
+            timestamp: "",
+            isFaved: false,
+            isEdited: false,
+            owner: 0
+        }
+    }
 
     public editing(column): void {
-    column.editing = !column.editing;
-    this.newTask = {
-      id: 0,
-      title: "",
-      timestamp: "",
-      isFaved: false,
-      isEdited: false
+        column.editing = !column.editing;
+        this.newTask = {
+        id: 0,
+        title: "",
+        timestamp: "",
+        isFaved: false,
+        isEdited: false
+        }
     }
-  }
 }
 </script>
 

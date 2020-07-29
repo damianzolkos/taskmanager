@@ -1,6 +1,10 @@
 <template>
     <div id="app">
-      <div class="board">
+        <select class="form-control select-user" v-model="selectedUser">
+          <option v-for="user in users" :value="user" :key="user.id">
+              {{user.name}}
+          </option>
+        </select>
         <div class="row">
           <draggable :animation="400" v-model="columns" group="columns" handle=".handle">
                 <TasksList
@@ -8,11 +12,11 @@
                 :key="column.title"
                 class="card bigcard d-inline-flex"
                 :column = "column"
+                :users = "users"
                 >
                 </TasksList>
           </draggable>
         </div>
-      </div>
     </div>
 </template>
 
@@ -29,80 +33,70 @@ import TasksList from './components/TasksList.vue';
 })
 
 export default class App extends Vue {
-    public users: Array<object>
+    public users: Array<object> = [
+          { 
+            id: 0,
+            name: "Wszyscy"
+          },
+          { 
+            id: 1,
+            name: "Jonh Doe",
+            jobTitle: "Project Manager"
+          },
+          { 
+            id: 2,
+            name: "John Apple",
+            jobTitle: "CEO"
+          }
+    ]
+
+    public selectedUser: object = { 
+            id: 0,
+            name: "Wszyscy"
+        }
 
     public columns: Array<object> = [
-        {
-          title: "Realizowane",
-          editing: false,
-          tasks: [
-            {
-              id: 1,
-              title: "zrobić rzecz",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: false,
-              isEdited: false,
-              owner: String
-            },
-            {
-              id: 2,
-              title: "kupić rzeczy",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: true,
-              isEdited: false,
-              owner: String
-            },
-            {
-              id: 3,
-              title: "ogarnąć życie",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: false,
-              isEdited: false,
-              owner: String
-            }
-          ]
-        },
-        {
-          title: "Wstrzymane",
-          editing: false,
-          tasks: [
-            {
-              id: 1,
-              title: "zjeść obiad",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: true,
-              isEdited: false,
-              owner: String
-            },
-            {
-              id: 2,
-              title: "kupić kebzille w nagrodę",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: false,
-              isEdited: false,
-              owner: String
-            }
-          ]
-        },
         {
           title: "Do realizacji",
           editing: false,
           tasks: [
             {
               id: 1,
-              title: "zjeść obiad",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: true,
-              isEdited: false,
-              owner: String
-            },
-            {
-              id: 2,
-              title: "zwalić konia",
+              title: "Wyłączenie poszczególnych adresów",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
               isEdited: false,
-              owner: String
+              owner: 0
+            },
+            {
+              id: 2,
+              title: "Płatność odroczona",
+              timestamp: "2020-6-2 13:46:20",
+              isFaved: true,
+              isEdited: false,
+              owner: 0
+            },
+            {
+              id: 3,
+              title: "Autyt SEO",
+              timestamp: "2020-6-2 13:46:20",
+              isFaved: true,
+              isEdited: false,
+              owner: 0
+            }
+          ]
+        },
+        {
+          title: "Realizowane",
+          editing: false,
+          tasks: [
+            {
+              id: 1,
+              title: "wykresy edito - rozbudowa",
+              timestamp: "2020-6-2 13:46:20",
+              isFaved: false,
+              isEdited: false,
+              owner: 0
             }
           ]
         },
@@ -112,19 +106,33 @@ export default class App extends Vue {
           tasks: [
             {
               id: 1,
-              title: "zrobić obiad",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: true,
-              isEdited: false,
-              owner: String
-            },
-            {
-              id: 2,
-              title: "zjeść cukinie",
+              title: "Pole wyszukiwania w filtrach",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
               isEdited: false,
-              owner: String
+              owner: 0
+            },
+            {
+              id: 2,
+              title: "Dane kontaktowe dla powiadomień",
+              timestamp: "2020-6-2 13:46:20",
+              isFaved: false,
+              isEdited: false,
+              owner: 0
+            }
+          ]
+        },
+        {
+          title: "Wztrzymane",
+          editing: false,
+          tasks: [
+            {
+              id: 1,
+              title: "rabat na krzesła",
+              timestamp: "2020-6-2 13:46:20",
+              isFaved: false,
+              isEdited: false,
+              owner: 0
             }
           ]
         },
@@ -134,19 +142,11 @@ export default class App extends Vue {
           tasks: [
             {
               id: 1,
-              title: "zrobić obiad",
+              title: "Poprawa listingu",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
               isEdited: false,
-              owner: String
-            },
-            {
-              id: 2,
-              title: "zjeść cukinie",
-              timestamp: "2020-6-2 13:46:20",
-              isFaved: false,
-              isEdited: false,
-              owner: String
+              owner: 0
             }
           ]
         }
@@ -157,16 +157,17 @@ export default class App extends Vue {
 
 <style>
 #app {
-  margin-top: 50px;
-  margin-left: 20px;
+  padding: 40px 30px 0px 30px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.board > .row {
+#app > .row {
   overflow-x: auto;
   white-space: nowrap;
   display: block;
+  min-height: 100% !important;
+  padding: 5px;
 }
 .category {
   margin-top: 20px;
@@ -180,5 +181,8 @@ export default class App extends Vue {
 
 .btn-display {
   width: 100%;
+}
+.select-user {
+  max-width: 300px;
 }
 </style>
