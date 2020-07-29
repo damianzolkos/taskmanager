@@ -43,7 +43,7 @@ Vue.component('BIconPencilSquare', BIconPencilSquare)
 })
 
 export default class TasksList extends Vue {
-  @Prop() private column: object;
+  @Prop() private column;
   @Prop() private selected!: number;
   @Prop() private users!: Array<object>;
 
