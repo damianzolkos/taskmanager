@@ -44,7 +44,7 @@ export default class App extends Vue {
 
     mounted() {
       axios
-        .get('http://www.mocky.io/v2/5e0de1893300002b00aa88f3')
+        .get('https://www.mocky.io/v2/5e0de1893300002b00aa88f3')
         .then(response => {
           this.users.push({
             id: 0,
