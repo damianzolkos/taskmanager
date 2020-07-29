@@ -78,10 +78,16 @@ export default class TasksList extends Vue {
       isEdited: false
     }
   }
-
 }
 </script>
 
 <style scoped>
-
+.newinput {
+  width: calc(100% - 20px);
+  position: relative;
+  margin: 10px;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 2px;
+  display: block;
+}
 </style>

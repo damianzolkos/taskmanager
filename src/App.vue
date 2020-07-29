@@ -29,6 +29,8 @@ import TasksList from './components/TasksList.vue';
 })
 
 export default class App extends Vue {
+    public users: Array<object>
+
     public columns: Array<object> = [
         {
           title: "Realizowane",
@@ -39,21 +41,24 @@ export default class App extends Vue {
               title: "zrobić rzecz",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 2,
               title: "kupić rzeczy",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 3,
               title: "ogarnąć życie",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             }
           ]
         },
@@ -66,14 +71,16 @@ export default class App extends Vue {
               title: "zjeść obiad",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 2,
               title: "kupić kebzille w nagrodę",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             }
           ]
         },
@@ -86,14 +93,16 @@ export default class App extends Vue {
               title: "zjeść obiad",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 2,
               title: "zwalić konia",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             }
           ]
         },
@@ -106,14 +115,16 @@ export default class App extends Vue {
               title: "zrobić obiad",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 2,
               title: "zjeść cukinie",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             }
           ]
         },
@@ -126,14 +137,16 @@ export default class App extends Vue {
               title: "zrobić obiad",
               timestamp: "2020-6-2 13:46:20",
               isFaved: true,
-              isEdited: false
+              isEdited: false,
+              owner: String
             },
             {
               id: 2,
               title: "zjeść cukinie",
               timestamp: "2020-6-2 13:46:20",
               isFaved: false,
-              isEdited: false
+              isEdited: false,
+              owner: String
             }
           ]
         }
@@ -150,11 +163,6 @@ export default class App extends Vue {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.row {
-  height: 100%;
-}
-/* The heart of the matter */
 .board > .row {
   overflow-x: auto;
   white-space: nowrap;
@@ -164,68 +172,12 @@ export default class App extends Vue {
   margin-top: 20px;
   padding: 10px;
 }
-.faved{
-  border-left: 3px solid red !important;
-  padding: 10px 10px 10px 8px !important;
-}
+
 .bigcard {
   margin: 10px;
   width: 250px !important;
 }
-.smallcard {
-  padding: 10px;
-  margin: 10px;
-}
 
-draggable {
-  display: inline-block;
-}
-.newinput {
-  width: calc(100% - 20px);
-  position: relative;
-  margin: 10px;
-  border: 1px solid rgb(194, 194, 194);
-  border-radius: 2px;
-  display: block;
-}
-.taskTitle {
-  margin: 0px;
-  padding: 0px;
-  border: 1px solid #fff;
-  max-width: 100%;
-  background-color: #fff;
-}
-.taskTitleInput {
-  margin: 0px;
-  padding: 0px;
-  max-width: 100%;
-  background-color: #fff;
-  border: 1px solid rgb(194, 194, 194);
-  border-radius: 2px;
-}
-.buttons-container {
-  padding: 0px;
-  margin: 10px 0px 0px;
-}
-.timestamp {
-  display: inline-block;
-  width: 80%;
-  font-size: 8pt;
-  padding: 0px;
-  margin: 0px;
-}
-.smallButton {
-  cursor: pointer;
-  display: inline-block;
-  width: calc(10% - 11px);
-  padding: 0;
-}
-.smallButton:nth-child(even) {
-  margin-right: 14px;
-}
-.smallButton:nth-child(odd) {
-  margin-right: 0px;
-}
 .btn-display {
   width: 100%;
 }
