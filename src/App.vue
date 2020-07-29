@@ -46,7 +46,6 @@ export default class App extends Vue {
       axios
         .get('http://www.mocky.io/v2/5e0de1893300002b00aa88f3')
         .then(response => {
-          console.log(response.data)
           this.users.push({
             id: 0,
             job_title: "", // eslint-disable-line
@@ -55,7 +54,6 @@ export default class App extends Vue {
           response.data.forEach(element => {
             this.users.push(element)
           });
-          console.log(this.users)
         })
     }
 
@@ -64,6 +62,7 @@ export default class App extends Vue {
     public columns: Array<object> = [
         {
           title: "Do realizacji",
+          id: 1,
           editing: false,
           tasks: [
             {
@@ -94,6 +93,7 @@ export default class App extends Vue {
         },
         {
           title: "Realizowane",
+          id: 2,
           editing: false,
           tasks: [
             {
@@ -108,6 +108,7 @@ export default class App extends Vue {
         },
         {
           title: "Rozwiązane",
+          id: 3,
           editing: false,
           tasks: [
             {
@@ -130,6 +131,7 @@ export default class App extends Vue {
         },
         {
           title: "Wstrzymane",
+          id: 4,
           editing: false,
           tasks: [
             {
@@ -144,6 +146,7 @@ export default class App extends Vue {
         },
         {
           title: "Zakończone",
+          id: 5,
           editing: false,
           tasks: [
             {

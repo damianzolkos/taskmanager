@@ -1,10 +1,10 @@
 <template>  
     <div>
         <h5 class="card-header handle">{{column.title}}</h5>
-        <draggable :list="column.tasks" :animation="300" group="tasks">
+        <draggable :list="column.tasks" :animation="300" group="tasks" :move="checkMove">
             <Task
-                v-for="(task) in filteredTasks()"
-                :key="task.id"
+                v-for="(task, i) in filteredTasks()"
+                :key="`${i}-${task.id}`"
                 :task="task"
                 class="card smallcard"
                 v-bind:class="{ faved: task.isFaved }"
@@ -25,15 +25,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import draggable from "vuedraggable";
-import { BIconStar, BIconPencilSquare, BIconPlus, BIconCheck2, BIconXCircleFill, BIconEmojiAngry} from 'bootstrap-vue'
+import {BIconPlus} from 'bootstrap-vue'
 
 import Task from './Task.vue';
-
-Vue.component('BIconXCircleFill', BIconXCircleFill)
-Vue.component('BIconCheck2', BIconCheck2)
 Vue.component('BIconPlus', BIconPlus)
-Vue.component('BIconStar', BIconStar)
-Vue.component('BIconPencilSquare', BIconPencilSquare)
 
 @Component({
   components: {
@@ -45,7 +40,21 @@ Vue.component('BIconPencilSquare', BIconPencilSquare)
 export default class TasksList extends Vue {
   @Prop() private column;
   @Prop() private selected!: number;
-  @Prop() private users!: Array<object>;
+  @Prop() private users;
+
+  public checkMove(evt) {
+      const projectManagers = [];
+      this.users.filter(user => user.job_title == "Project Manager").forEach(element => {
+          projectManagers.push(element.id);
+      });
+    if (evt.relatedContext.component.$parent.column.id == 5) {
+      if (projectManagers.includes(evt.draggedContext.element.owner)) {
+        return 1;
+      } else {
+          return false;
+      }
+    } else return 1;
+  }
 
     public filteredTasks() {
         if (this.selected == 0) {
@@ -55,7 +64,7 @@ export default class TasksList extends Vue {
         }
     }
   
-    public newTask: Record<string, any> = {
+    public newTask = {
         id: 0,
         title: "",
         timestamp: "",
@@ -89,7 +98,8 @@ export default class TasksList extends Vue {
         title: "",
         timestamp: "",
         isFaved: false,
-        isEdited: false
+        isEdited: false,
+        owner: 0
         }
     }
 }
