@@ -4,10 +4,13 @@
     <p v-else class="taskTitle">{{task.title}}</p>
         <select class="form-control-sm select-user" v-model="task.owner">
             <option disabled value="">Przypisz do używkownika: </option>
-            <option v-for="user in users"
+            <option v-for="user in filteredUsers()"
                 :key="user.id"
                 v-bind:value="user.id">
-                {{user.name}}
+                
+              <span v-if="user.id!=0">{{user.first_name}} {{user.last_name}} - {{user.job_title}}</span>
+              <span v-else>{{user.first_name}}</span>
+                
             </option>
         </select>
         <div class="buttons-container">
@@ -29,7 +32,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class Task extends Vue {
   @Prop() private task!: object;
-  @Prop() private users!: object;
+  @Prop() private users;
 
   public edit(task): void {
     task.isEdited = !task.isEdited;
@@ -38,6 +41,11 @@ export default class Task extends Vue {
   public fav(item): void {
     item.isFaved = !item.isFaved;
   }
+
+    public filteredUsers() {
+        // return this.users;
+        return this.users.filter(user => user.job_title != null);
+    }
 }
 
 </script>

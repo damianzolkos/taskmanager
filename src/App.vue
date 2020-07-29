@@ -2,7 +2,8 @@
     <div id="app">
         <select class="form-control select-user" v-model="selectedUser">
           <option v-for="user in users" v-bind:value="user.id" :key="user.id">
-              {{user.name}}
+              <span v-if="user.id!=0">{{user.first_name}} {{user.last_name}} <span v-if="user.job_title!=null">- {{user.job_title}}</span> </span>
+              <span v-else>{{user.first_name}}</span>
           </option>
         </select>
         <div class="row">
@@ -25,6 +26,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 import draggable from "vuedraggable";
 import TasksList from './components/TasksList.vue';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 
 @Component({
   components: {
@@ -34,22 +39,25 @@ import TasksList from './components/TasksList.vue';
 })
 
 export default class App extends Vue {
-    public users: Array<object> = [
-          { 
+
+    public users: Array<object> = []
+
+    mounted() {
+      axios
+        .get('http://www.mocky.io/v2/5e0de1893300002b00aa88f3')
+        .then(response => {
+          console.log(response.data)
+          this.users.push({
             id: 0,
-            name: "Wszyscy"
-          },
-          { 
-            id: 1,
-            name: "Jonh Doe",
-            jobTitle: "Project Manager"
-          },
-          { 
-            id: 2,
-            name: "John Apple",
-            jobTitle: "CEO"
-          }
-    ]
+            job_title: "", // eslint-disable-line
+            first_name: "Wszyscy" // eslint-disable-line
+          })
+          response.data.forEach(element => {
+            this.users.push(element)
+          });
+          console.log(this.users)
+        })
+    }
 
     public selectedUser = 0;
 
