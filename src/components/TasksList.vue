@@ -5,10 +5,9 @@
             <Task
                 v-for="(task, i) in filteredTasks()"
                 :key="`${i}-${task.id}`"
-                :task="task"
-                class="card smallcard"
+                class="smallcard card"
                 v-bind:class="{ faved: task.isFaved }"
-                :msg = "task"
+                :task = "task"
                 :users = "users"
                 >
             </Task>
