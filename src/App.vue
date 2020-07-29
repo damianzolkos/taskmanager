@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <select class="form-control select-user" v-model="selectedUser">
-          <option v-for="user in users" :value="user" :key="user.id">
+          <option v-for="user in users" v-bind:value="user.id" :key="user.id">
               {{user.name}}
           </option>
         </select>
@@ -13,6 +13,7 @@
                 class="card bigcard d-inline-flex"
                 :column = "column"
                 :users = "users"
+                :selected = "selectedUser"
                 >
                 </TasksList>
           </draggable>
@@ -50,10 +51,7 @@ export default class App extends Vue {
           }
     ]
 
-    public selectedUser: object = { 
-            id: 0,
-            name: "Wszyscy"
-        }
+    public selectedUser = 0;
 
     public columns: Array<object> = [
         {
@@ -123,7 +121,7 @@ export default class App extends Vue {
           ]
         },
         {
-          title: "Wztrzymane",
+          title: "Wstrzymane",
           editing: false,
           tasks: [
             {
@@ -156,11 +154,16 @@ export default class App extends Vue {
 </script>
 
 <style>
+html, body {
+  background-color: rgb(29, 97, 141);
+  min-height: 100%;
+}
 #app {
   padding: 40px 30px 0px 30px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(29, 97, 141);
 }
 #app > .row {
   overflow-x: auto;

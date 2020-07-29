@@ -3,7 +3,7 @@
         <h5 class="card-header handle">{{column.title}}</h5>
         <draggable :list="column.tasks" :animation="300" group="tasks">
             <Task
-                v-for="(task) in column.tasks"
+                v-for="(task) in filteredTasks()"
                 :key="task.id"
                 :task="task"
                 class="card smallcard"
@@ -25,7 +25,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import draggable from "vuedraggable";
-import { BIconStar, BIconPencilSquare, BIconPlus, BIconCheck2, BIconXCircleFill} from 'bootstrap-vue'
+import { BIconStar, BIconPencilSquare, BIconPlus, BIconCheck2, BIconXCircleFill, BIconEmojiAngry} from 'bootstrap-vue'
 
 import Task from './Task.vue';
 
@@ -43,8 +43,17 @@ Vue.component('BIconPencilSquare', BIconPencilSquare)
 })
 
 export default class TasksList extends Vue {
-  @Prop() private column!: Array<object>;
+  @Prop() private column: object;
+  @Prop() private selected!: number;
   @Prop() private users!: Array<object>;
+
+    public filteredTasks() {
+        if (this.selected == 0) {
+            return this.column.tasks;
+        } else {
+            return this.column.tasks.filter(task => task.owner == this.selected);
+        }
+    }
   
     public newTask: Record<string, any> = {
         id: 0,
