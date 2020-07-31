@@ -1,13 +1,13 @@
 <template>
     <div id="app">
-        <select class="form-control-sm select-user" v-model="selectedUser">
+        <select v-if="error === ''"  class="form-control-sm select-user" v-model="selectedUser">
           <option v-for="user in users" v-bind:value="user.id" :key="user.id">
               <span v-if="user.id!=0">{{user.first_name}} {{user.last_name}} <span v-if="user.job_title!=null">- {{user.job_title}}</span> </span>
               <span v-else>{{user.first_name}}</span>
           </option>
         </select>
                   
-        <div v-if="error != ''" class="alert alert-warning" role="alert">
+        <div v-if="error != ''" class="alert alert-danger" role="alert">
           {{error}}
         </div>
 
