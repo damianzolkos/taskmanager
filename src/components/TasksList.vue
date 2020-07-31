@@ -70,7 +70,7 @@ export default class TasksList extends Vue {
         isEdited: false,
         owner: 0
     }
-
+    
     public add(column): void {
         const newId = column.tasks.length+1;
         const d = new Date();

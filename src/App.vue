@@ -6,6 +6,11 @@
               <span v-else>{{user.first_name}}</span>
           </option>
         </select>
+                  
+        <div v-if="error != ''" class="alert alert-warning" role="alert">
+          {{error}}
+        </div>
+
         <div class="row">
           <draggable :animation="400" v-model="columns" group="columns" handle=".handle">
                 <TasksList
@@ -41,6 +46,7 @@ export default class App extends Vue {
 
     public users: Array<object> = []
     public selectedUser = 0;
+    public error = "";
 
     mounted() {
       axios
@@ -54,6 +60,10 @@ export default class App extends Vue {
           response.data.forEach(element => {
             this.users.push(element)
           });
+        })
+        .catch(error => {
+          console.log(error);
+          this.error = error;
         })
     }
 
@@ -189,5 +199,10 @@ html, body {
   max-width: 300px;
   margin-left: -5px;
   margin-bottom: 20px;
+}
+
+.alert {
+  margin: 0 auto;
+  width: 50%;
 }
 </style>
