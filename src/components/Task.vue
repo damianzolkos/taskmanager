@@ -1,7 +1,7 @@
 <template>
     <div>
-    <input v-if="task.isEdited" type="text" v-model="task.title" class="taskTitleInput"/>
-    <p v-else class="taskTitle font-weight-normal">{{task.title}}</p>
+    <input v-if="task.isEdited" type="text" v-model="task.title" class="task-title-input"/>
+    <p v-else class="task-title font-weight-normal">{{task.title}}</p>
         <select class="select-user" v-model="task.owner">
             <option disabled value="">Przypisz do używkownika: </option>
             <option v-for="user in filteredUsers()"
@@ -14,10 +14,10 @@
         </select>
         <div class="m-0 p-0">
             <p class="timestamp text-muted p-0 m-0">{{task.timestamp}}</p>
-            <div @click="edit(task)" class="smallButton">
+            <div @click="edit(task)" class="small-button">
                 <b-icon-pencil-square></b-icon-pencil-square>
             </div>
-            <div @click="fav(task)" class="smallButton">
+            <div @click="fav(task)" class="small-button">
                 <b-icon-star></b-icon-star>
             </div>
         </div>
@@ -49,7 +49,7 @@ export default class Task extends Vue {
 
 <style scoped>
 
-.taskTitle {
+.task-title {
   margin: -5px -5px 5px -5px;
   padding: 3px 5px;
   position: relative;
@@ -59,7 +59,7 @@ export default class Task extends Vue {
   word-break: break-word;
   white-space: normal;
 }
-.taskTitleInput {
+.task-title-input {
   margin: -5px -5px 5px -5px;
   padding: 3px 5px;
   max-width: calc(100% + 10px);
@@ -72,16 +72,16 @@ export default class Task extends Vue {
   width: 80%;
   font-size: 8pt;
 }
-.smallButton {
+.small-button {
   cursor: pointer;
   display: inline-block;
   width: calc(10% - 11px);
   padding: 0;
 }
-.smallButton:nth-child(even) {
+.small-button:nth-child(even) {
   margin-right: 14px;
 }
-.smallButton:nth-child(odd) {
+.small-button:nth-child(odd) {
   margin-right: 0px;
 }
 .select-user {
